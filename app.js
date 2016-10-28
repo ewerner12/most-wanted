@@ -291,16 +291,13 @@ function initSearch()
 	var lastName = names[1];
 	var person = getPersonFromDb(firstName, lastName);
 	
-	alert(person.firstName + " " + person.lastName + "'s age = " + getAge(person));
-	alert(DOBs);
-	
-	
 	////--get search parameters--////
-	var descendants = getDescendants(askForSearchParameter("descendants"), person);
+	var descendants = printArrayNamesToString(getDescendants(askForSearchParameter("descendants"), person));
 		alert(person.firstName + " " + person.lastName + "'s descendants: \n\n" + descendants);
-	var immediateFamily = getImmediateFamily(askForSearchParameter("immediate family members"), person);
-		alert(person.firstName + " " + person.lastName + "'s family: \n\n" + immediateFamily);
-	var nextOfKin = getNextOfKin(askForSearchParameter("next of kin"), person);
+	var immediateFamily = printArrayNamesToString(getImmediateFamily(askForSearchParameter("immediate family members"), person));
+		alert(person.firstName + " " + person.lastName + "'s immediate family: \n\n" + immediateFamily);
+	var nextOfKin = printArrayNamesToString(getNextOfKin(askForSearchParameter("next of kin"), person));
+		alert(person.firstName + " " + person.lastName + "'s next of kin: " + nextOfKin);
 	
 	////--get filter parameters--////
 	// var isFilteredByGender = askForFilterParameter("gender");
@@ -405,7 +402,7 @@ function printArrayNamesToString(peopleArray)
 	
 	for(i = 0; i < peopleArray.length; i++)
 	{
-		printedResults += peopleArray.firstName + " " + peopleArray.lastName + "\n";
+		printedResults += peopleArray[i].firstName + " " + peopleArray[i].lastName + "\n";
 	}
 	return printedResults;
 }
@@ -471,7 +468,7 @@ function getDescendants(isRequestForDescendants, person)
 				if(dataArray[descendant].parents[i] == person.id)
 				{
 					descendants.push(dataArray[descendant]);
-					descendants.push(getDescendants(isRequestForDescendants, dataArray[descendant]));
+					descendants.concat(getDescendants(isRequestForDescendants, dataArray[descendant]));
 				}
 			}
 		}
@@ -485,10 +482,10 @@ function getImmediateFamily(isRequestForFamily, person)
 	
 	if(isRequestForFamily)
 	{
-		immediateFamily.concat(getParents(person));
-		immediateFamily.push() += getSiblings(person);
-		immediateFamily.push() += getSpouse(person);
-		immediateFamily.push() += getChildren(person);
+		immediateFamily = immediateFamily.concat(getParents(person));
+		immediateFamily = immediateFamily.concat(getSiblings(person));
+		immediateFamily = immediateFamily.concat(getSpouse(person));
+		immediateFamily = immediateFamily.concat(getChildren(person));
 	}
 	return immediateFamily;
 }
@@ -520,7 +517,7 @@ function getSiblings(person)
 		{
 			for(j = 0; j < dataArray[sibling].parents.length; j++)
 			{
-				if((dataArray[sibling].parents[j] == person.parents[i]) && (!siblings.includes(dataArray[sibling])))
+				if((dataArray[sibling].parents[j] == person.parents[i]) && (!siblings.includes(dataArray[sibling])) && (dataArray[sibling] != person))
 				{
 					siblings.push(dataArray[sibling]);
 				}
@@ -569,34 +566,33 @@ function getNextOfKin(isRequestForKin, person)
 	{
 		if(getSpouse(person) != null)
 		{
-			nextOfKin.push(getSpouse(person));
+			nextOfKin.concat(getSpouse(person));
 		}
-		else if()
-		{
+		// else if()
+		// {
 			
-		}
-		else if()
-		{
+		// }
+		// else if()
+		// {
 			
-		}
-		else if()
-		{
+		// }
+		// else if()
+		// {
 			
-		}
-		else if()
-		{
+		// }
+		// else if()
+		// {
 			
-		}
-		else if()
-		{
+		// }
+		// else if()
+		// {
 			
-		}
-		else if()
-		{
+		// }
+		// else if()
+		// {
 			
-		}
+		// }
 	}
-	
 	return nextOfKin;
 }
 
