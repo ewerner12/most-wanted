@@ -476,6 +476,11 @@ function getDescendants(isRequestForDescendants, person)
 	return descendants;
 }
 
+function getGrandchildren(person)
+{
+	
+}
+
 function getImmediateFamily(isRequestForFamily, person)
 {
 	var immediateFamily = [];
@@ -505,6 +510,11 @@ function getParents(person)
 		}
 	}
 	return parents;
+}
+
+function getGrandparents(person)
+{
+	
 }
 
 function getSiblings(person)
@@ -568,30 +578,42 @@ function getNextOfKin(isRequestForKin, person)
 		{
 			nextOfKin.concat(getSpouse(person));
 		}
-		// else if()
-		// {
+		else if(getChildren(person) != null)
+		{
 			
-		// }
-		// else if()
-		// {
+		}
+		else if(getParents(person) != null)
+		{
 			
-		// }
-		// else if()
-		// {
+		}
+		else if(getSiblings(person) != null)
+		{
 			
-		// }
-		// else if()
-		// {
+		}
+		else if(getGrandchildren(person) != null)
+		{
 			
-		// }
-		// else if()
-		// {
+		}
+		else if(getGrandparents(person) != null)
+		{
 			
-		// }
-		// else if()
-		// {
+		}
+		else if(getNieceNephew(person) != null)
+		{
 			
-		// }
+		}
+		else if(getAuntUncle(person) != null)
+		{
+			
+		}
+		else if(getGreatGrandchildren(person) != null)
+		{
+			
+		}
+		else if(getGreatGrandparents(person) != null)
+		{
+			
+		}
 	}
 	return nextOfKin;
 }
@@ -603,6 +625,33 @@ function getAge(person)
 	var age = Math.floor((currentDate - birthDate)/(1000 * 60 * 60 * 24 * 365.24));
 	
 	return age;
+}
+
+function getSearchFilterResults()
+{
+	var dbArray = dataArray;
+	var fullFilter = /\d{0,3}[,]\d{0,3}[-]{0,1}\d{0,3}[,]\d[']\d{0,2}["][,]\d{0,3}[lbs$][,]\w{0,10}[,]\w{0,5}/;
+	
+	var filterString = prompt("Please enter up to five of the search filters below. " + 
+						"\nBe sure to include all commas even if you do not select all filters. " +
+						"\nThe format of each filter is listed in square brackets." +								
+						"\n\nAge[#], Age range[#-#], Height[#'#\"], Weight[#lbs], Occupation[single word], Eye color[single word]")
+						
+	if(!fullFilter.test(filterString))
+	{
+		alert("Please provide search filters following the provided format.");
+		return getSearchFilterResults();
+	}
+	else
+	{
+		var filters = filterString.split(",");
+		getPeopleByAge(filters[0]);
+		getPeopleByAgeRange(filters[1]);
+		getPeopleByHeight(filters[2]);
+		getPeopleByWeight(filters[3]);
+		getPeopleByOccupation(filters[4]);
+		getPeopleByEyeColor(filters[5]);
+	}
 }
 
 function askForFilterParameter(filterType)
@@ -623,6 +672,22 @@ function askForFilterParameter(filterType)
 		alert("Please respond with 'Yes', 'No', or leave blank.");
 		return askForFilterParameter(filterType);
 	}
+}
+
+function getPeopleByAge(ageFilter)
+{
+	if(!ageFilter === "")
+	{
+		
+	}
+}
+
+function getPeopleByAgeRange(ageRange)
+{
+	var minAge = ageRange.split("-")[0];
+	var maxAge = ageRange.split("-")[1];
+	
+	
 }
 
 function setGenderFilter(isFilteredByGender)
@@ -794,11 +859,6 @@ function setAgeFilter(isFilteredByAge)
 	{
 		return "";
 	}
-}
-
-function getPeopleByAge()
-{
-	
 }
 
 function setOccupationFilter(isFilteredByOccupation)
